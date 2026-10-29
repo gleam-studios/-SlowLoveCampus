@@ -1,55 +1,46 @@
-# @SlowLoveCampus 创作流程
+# SlowLoveCampus 工作流使用说明
 
-一句话剧情 → 匹配现有素材并写提示词 → 生成视频，结束。
+## 方式一：本地运行，MiniMax 自动生成视频
 
-## 本地界面
+**运行条件：** 电脑已安装 Codex，并拥有 RunningHub API Key。
 
-需要 Python 3.10+、Node.js / npm，以及已登录的 Codex CLI（`codex login`）。首次安装与启动：
+**操作步骤：**
 
-```bash
-npm ci
-python3 -m pip install -r skills/rh-minimax-h3/requirements.txt
-npm start
+1. 打开 Codex，发送以下内容：
+
+   ```text
+   拉取 https://github.com/gleam-studios/-SlowLoveCampus.git 到 /Users/griffith/Desktop/AI/拉取的项目，并启动项目、打开运行界面。
+   ```
+
+2. 在打开的界面中填写并保存 RunningHub API Key。
+3. 点击「一键运行」，自动执行视频制作流程。
+
+**注意：最多同时生成 3 条视频。**
+
+## 方式二：通过 Skill 写提示词，手动生成视频
+
+以下 Skill 安装命令三选一，给 GPT 发送：
+
+```text
+用（粘贴下方的 Skill 安装命令）这个 Skill 写提示词。
 ```
 
-打开 `http://127.0.0.1:8765`，在「设置」手动填写 RunningHub API Key 并保存，再点击「一键运行」。页面会调用本机 `codex exec` 完成以下三步；可选择生成 1–3 次（默认 1 次），同批任务并行执行，每次独立提交一个视频，使用 RunningHub 账户额度；本批结束前不能重复启动新批次。Codex 沿用本机模型与登录配置，以非交互方式执行本项目任务，具备本机文件与联网权限。
+### 15 秒版
 
-成片预览标题栏提供「下载成片」按钮；未生成视频时按钮禁用。顶部「生成记录」进入紧凑的媒体缩略图网格（`/#records`），点击缩略图打开播放器，悬停可下载，不展示任务信息。
+```bash
+npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-15s --skill slowlove-campus -g -y
+```
 
-API Key 单独保存在 `.local/runninghub.env`（0600），只用于本项目，不覆盖根目录 `.env` 或本机共享 Skill 的凭据。页面仅显示是否已配置，不回显 Key；保存不等于已联网验证。请仅在可信本机运行，本服务只监听 `127.0.0.1`。
+### 20 秒版
 
-任务记录保存于 `.local/runs.json`；工作文件与成片分别在 `工作区/<任务ID>/`、`输出/<任务ID>/`，这些目录均不提交 Git。刷新或关闭浏览器不影响正在运行的任务；服务停止会结束本地进程，但远端任务可能继续。重启后对已有 taskId 使用「恢复查询与下载」，提交结果不明时先到 RunningHub 核对，不自动重提。运行失败的详情、剧情、提示词和成片可在创作记录中查看。
+```bash
+npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-20s --skill slowlove-campus-20s -g -y
+```
 
-运行 `npm test` 检查本地接口与模拟 CLI 链路，不会提交付费视频任务。界面依赖及来源见 [web/SOURCES.md](web/SOURCES.md)。
+### 30 秒版
 
-每次点击「一键运行」都创建新的工作目录和新的 Codex 会话，从零依次重跑第 1、2、3 步。同批任务使用各自独立的目录、进程和回执，单个任务失败不影响其他任务；可点击「任务 1 / 2 / 3」切换进度和预览。第一步独立想剧情，第二步只使用本轮剧情重新选素材并写完整提示词，第三步只使用本轮提示词和素材新建生成任务。不得沿用历史 story、prompt、assets、jobs、分镜或 taskId。
+```bash
+npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-30s --skill slowlove-campus-30s -g -y
+```
 
-历史只以简短的核心活动标签（`activity.txt`，同步保存在任务记录的 `activity` 字段）传入新任务的排除清单，不传入历史剧情、提示词或生成结果。候选活动与清单语义重复时，在第一步重新构思全新活动。历史文件留作展示与下载，新创作不得读取。旧记录应只在 `.local/excluded-activities.json` 补录简短活动标签，不能将旧提示词注入新会话。
-
-「恢复查询与下载」仅查询已有远端任务，不属于一次新创作，也不会重新提交。
-
-## 第一步：一句话剧情
-
-先读 [创作总纲.md](创作总纲.md)，发送指令：
-
-> 想一个男男GAY 面向BL 的双人剧情，适合社媒，短视频，居家，日常，甜蜜，暧昧。一句话。
-
-只输出一句话：一个具体日常活动 + 一个有趣的小把戏 + 一个自然的双向亲密互动。两位角色均为成年男性，内容非露骨；所有历史记录仅用于排除重复的核心活动，同义活动或只换道具、场景也算重复；不得读取、复用或改写历史剧情与提示词。
-
-## 第二步：匹配素材，写视频提示词
-
-根据一句话剧情，从固定素材目录 `/Users/griffith/Desktop/@SlowLoveCampus/资产` 选择两位角色、服装跟随提示词内具体设计、场景及需要的音色。先查看选中图片的实际内容，再按真实文件名绑定；不凭文件名推测画面，不额外制作资产。
-
-使用 `/Users/griffith/Desktop/@SlowLoveCampus/skills/multi-shot-prompt/SKILL.md`，显式选择 `execution_mode: standalone_mode`，直接根据一句话剧情与创作总纲自主编写。此流程直接调用创作 Skill，不建立 Master Director Agent 包或 managed 审批链；不默认启用需要起点截图的专项自拍模式。
-
-产出一个完整提示词，固定顺序为：视频梗概 → 影片质感 → 素材锁定 → 分镜。沿用总纲的手机随拍、自然光、甜蜜暧昧；所有角色台词必须使用英文，表达简短自然，分镜正文与台词索引保持一致。提示词的说明文字可使用中文。默认 15 秒、9:16，镜头数量按剧情需要决定。选取 1–6 张真实参考图，音频参考最多 2 段；仅提交实际使用的素材，保留提示词引用与上传文件的对应关系。
-
-本次的一句话剧情、选中素材路径与上传顺序、完整 `prompt.txt`、`jobs.json` 保存在 `工作区/<日期-短标题>/`，不另建策划、审批或审片文档。
-
-## 第三步：生成视频
-
-使用 `/Users/griffith/Desktop/@SlowLoveCampus/skills/rh-minimax-h3/SKILL.md`，按其脚本检查凭据、构造任务并执行 dry-run；通过后提交一次生成。默认 15 秒、9:16、720P，其他配置沿用该 Skill。用户明确要求“生成视频”或“按流程开始”即执行到本步，无需逐步确认；只要求一句话或提示词时，在对应步骤结束。
-
-视频及平台回执保存到 `输出/<日期-短标题>/`。已有 taskId 时查询恢复，不重复提交。下载成功后交付视频路径、taskId、实际尺寸与时长，以及平台返回的 usage（缺失则注明），结束。默认不追加剪辑、审片、返修、发布或第二次生成。
-
-仅在必要素材缺失、凭据不可用或平台执行失败时说明具体阻碍；不虚构素材、生成结果或费用。
+Skill 输出完整提示词后结束，使用提示词手动生成视频。
