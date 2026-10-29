@@ -1,7 +1,7 @@
 {
   "name": "@SlowLoveCampus-20s",
   "skill_id": "slowlove-campus-20s",
-  "version": "1.0.0-20s",
+  "version": "1.0.1-20s",
   "output_type": "video_prompt",
   "default_duration_seconds": 20,
   "files": [
@@ -17,13 +17,13 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 403,
-      "sha256": "dc52f4dfab8d7d28572904b0fef750b9184165be421177909054c2bf32b75ddf"
+      "bytes": 597,
+      "sha256": "8c123162b02241673fa45851db497f4cd8943189ace83866534aeef591326e61"
     },
     {
       "path": "SKILL.md",
-      "bytes": 6910,
-      "sha256": "47529d70b70c9dda63a6ec6b9f12055382a46e0403181fdc4778a2f3c79b4170"
+      "bytes": 7515,
+      "sha256": "495b8cb8fbe90590ddce32a09c17b011f7c588685f00d037eec14948edf4bf63"
     },
     {
       "path": "SOURCE.md",
@@ -37,8 +37,8 @@
     },
     {
       "path": "agents/openai.yaml",
-      "bytes": 330,
-      "sha256": "d3a6f12bf8003a89e88136a7b4b9c492c422f894c2886d78db6dd99d8643c911"
+      "bytes": 366,
+      "sha256": "04f476f21d9829bbf28da9b24d8d359829150ee64763d8a4f54e59f9e383385a"
     },
     {
       "path": "assets/场景/卧室.jpeg",
@@ -97,8 +97,8 @@
     },
     {
       "path": "references/创作总纲.md",
-      "bytes": 4819,
-      "sha256": "6acc039fdbf32cee24dbec57fcd949380d8587ab96ff4442ea6ebb1f4adf1aa7"
+      "bytes": 5046,
+      "sha256": "52c77c4c6ff3997f98cd55e2a82c786abc92b2ed7483173b58eb1c7a538d3a3a"
     },
     {
       "path": "scripts/workspace.py",
@@ -352,8 +352,8 @@
     },
     {
       "path": "使用方法.md",
-      "bytes": 1318,
-      "sha256": "9370d5acdd7d6b2f1bececd561997c041a4baf839fb11c6fe4e2382f4f6cd214"
+      "bytes": 1368,
+      "sha256": "5e7b494a03e19024fb5f32671947d3968d8529c75b0131c317b74771516233c4"
     }
   ]
 }

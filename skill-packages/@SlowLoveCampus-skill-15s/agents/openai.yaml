@@ -1,4 +1,4 @@
 interface:
   display_name: "@SlowLoveCampus"
   short_description: "自带总纲、双人素材与提示词 Skill，交给不同模型独立编写完整视频提示词"
-  default_prompt: "使用 $slowlove-campus，读取包内总纲与素材，独立完成一句话剧情和完整视频提示词，输出提示词后结束。"
+  default_prompt: "使用 $slowlove-campus，读取包内总纲与素材，先展示一句话剧情并等待用户确认，确认后再编写完整视频提示词，输出提示词后结束。"

@@ -9,6 +9,6 @@
 
 ## 隔离分发的提示词 Skill
 
-- @SlowLoveCampus-skill-15s — 自带总纲、素材和提示词子 Skill，交付 15 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-15s/SKILL.md](skill-packages/@SlowLoveCampus-skill-15s/SKILL.md)。
-- @SlowLoveCampus-skill-20s — 聚焦紧凑互动事件链及自然变化，交付 20 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-20s/SKILL.md](skill-packages/@SlowLoveCampus-skill-20s/SKILL.md)。
-- @SlowLoveCampus-skill-30s — 支持更多关联情节、动作、镜头与对白，交付 30 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-30s/SKILL.md](skill-packages/@SlowLoveCampus-skill-30s/SKILL.md)。
+- @SlowLoveCampus-skill-15s — 一句话剧情经用户确认后再写提示词；自带总纲、素材和提示词子 Skill，交付 15 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-15s/SKILL.md](skill-packages/@SlowLoveCampus-skill-15s/SKILL.md)。
+- @SlowLoveCampus-skill-20s — 一句话剧情经用户确认后再写提示词；聚焦紧凑互动事件链及自然变化，交付 20 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-20s/SKILL.md](skill-packages/@SlowLoveCampus-skill-20s/SKILL.md)。
+- @SlowLoveCampus-skill-30s — 一句话剧情经用户确认后再写提示词；支持更多关联情节、动作、镜头与对白，交付 30 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-30s/SKILL.md](skill-packages/@SlowLoveCampus-skill-30s/SKILL.md)。
