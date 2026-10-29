@@ -76,6 +76,29 @@ class LocalAppTests(unittest.TestCase):
             self.assertEqual(self.request('/api/run', {})[0], 400)
             self.assertEqual(self.request('/api/resume', {'id': 'existing'})[0], 400)
 
+    def test_fresh_prompt_uses_only_activity_exclusions(self):
+        old = {'id': 'old', 'status': 'completed'}
+        current = {'id': 'new', 'status': 'running'}
+        server.RUNS.extend([current, old])
+        old_work, _ = server.dirs(old)
+        old_work.mkdir(parents=True)
+        (old_work / 'activity.txt').write_text('叠衣服')
+        (old_work / 'story.txt').write_text('SECRET_OLD_STORY')
+        (old_work / 'prompt.txt').write_text('SECRET_OLD_PROMPT')
+        prompt = server.creation_prompt(current)
+        self.assertIn('叠衣服', prompt)
+        self.assertNotIn('SECRET_OLD', prompt)
+        self.assertIn('不得读取', prompt)
+        self.assertIn('1 → 2 → 3', prompt)
+        self.assertIn('activity.txt', prompt)
+        self.assertNotIn(str(old_work), prompt)
+
+    def test_recorded_activity_survives_missing_work_files(self):
+        (self.local / 'excluded-activities.json').write_text('["叠衣服"]')
+        server.RUNS.append({'id': 'legacy', 'status': 'failed', 'activity': '做早餐'})
+        self.assertIn('叠衣服', server.creation_prompt({'id': 'new'}))
+        self.assertIn('做早餐', server.creation_prompt({'id': 'new'}))
+
     def test_fake_codex_end_to_end_and_video_range(self):
         self.request('/api/settings', {'apiKey': 'fake-key'})
         fake = self.root / 'codex'
@@ -85,6 +108,9 @@ from pathlib import Path
 prompt=sys.stdin.read()
 match=re.search(r"本次工作目录：(.*?)；输出目录：(.*?)。",prompt)
 work,out=map(Path,match.groups())
+(work/'activity.txt').write_text('做早餐')
+(work/'request.txt').write_text(prompt)
+(work/'args.json').write_text(json.dumps(sys.argv))
 (work/'story.txt').write_text('厨房里，两人争抢最后一口早餐。')
 (work/'prompt.txt').write_text('视频梗概\\n影片质感\\n素材锁定\\n分镜：Hello, love.')
 (out/'video_123.json').write_text(json.dumps({'taskId':'123','status':'SUCCESS'}))
@@ -111,6 +137,23 @@ time.sleep(.1)
         self.assertEqual(self.request(f'/media/{run_id}/%2e%2e%2fsecret.mp4')[0], 404)
         self.assertEqual(self.request(f'/media/{run_id}/video.mp4', headers={'Range': 'bytes=100-'})[0], 416)
         self.assertTrue(server.RUNS_FILE.is_file())
+        self.assertEqual(run['activity'], '做早餐')
+        with patch.object(server.shutil, 'which', return_value=str(fake)):
+            status, data = self.request('/api/run', {})
+            self.assertEqual(status, 202)
+            second_id = json.loads(data)['id']
+            self.assertNotEqual(second_id, run_id)
+            deadline = time.monotonic() + 5
+            while server.RUNS[0]['status'] == 'running' and time.monotonic() < deadline:
+                time.sleep(.05)
+        work, _ = server.dirs(server.RUNS[0])
+        second_prompt = (work / 'request.txt').read_text()
+        self.assertIn('做早餐', second_prompt)
+        self.assertNotIn('厨房里，两人争抢最后一口早餐', second_prompt)
+        self.assertNotIn('Hello, love.', second_prompt)
+        self.assertNotIn('resume', json.loads((work / 'args.json').read_text()))
+        self.assertEqual(server.RUNS[0]['status'], 'completed')
+
 
 
 if __name__ == '__main__':

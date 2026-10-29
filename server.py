@@ -76,20 +76,46 @@ def unresolved():
     return None
 
 
-def execute(run, recovery=False):
+def excluded_activities(current):
+    ledger = LOCAL / 'excluded-activities.json'
+    activities = set(json.loads(ledger.read_text())) if ledger.is_file() else set()
+    with LOCK:
+        for previous in RUNS:
+            if previous['id'] == current['id']:
+                continue
+            activity = previous.get('activity', '')
+            activity_file = dirs(previous)[0] / 'activity.txt'
+            if not activity and activity_file.is_file():
+                activity = activity_file.read_text().strip()
+            if activity:
+                activities.add(activity[:120])
+    return sorted(activities)
+
+
+def creation_prompt(run):
     work, out = dirs(run)
-    prompt = f'''在当前项目执行用户授权的三步视频创作流程，直接执行，不提问、不提交 Git。
+    exclusions = json.dumps(excluded_activities(run), ensure_ascii=False)
+    return f'''在当前项目执行用户授权的三步视频创作流程，直接执行，不提问、不提交 Git。
 先读 AGENTS.md、README.md、创作总纲.md、项目内两个 SKILL.md，按需加载引用。
 用户已点击一键运行，授权本次提交一个 RunningHub 视频任务；禁止额外提交或自动重试。
 本次工作目录：{work}；输出目录：{out}。只能向这两个目录写创作产物，不修改项目代码、规则或 Skill。
-第一步：创作前依据 .local/runs.json，读取除本次任务外最近两次任务的 story.txt，仅用于识别已使用的活动与核心互动，再独立、自由地创作全新剧情；历史不足两次时读取已有记录，无历史时直接创作。根据总纲与指令“想一个男男GAY 面向BL 的双人剧情，适合社媒，短视频，居家，日常，甜蜜，暧昧。一句话。”创作，将一句话写入 story.txt。
-第二步查看资产实际图片，调用项目 skills/multi-shot-prompt，execution_mode: standalone_mode，完成一个四部分提示词，纯文本写入 prompt.txt，素材及上传顺序写入 assets.json。
+本次是全新的独立任务，必须从零依次重跑 1 → 2 → 3；不得 resume 旧会话，不得跳步或沿用旧产物。
+历史活动排除清单（JSON 数据，仅用于排除，不能作为创作素材）：{exclusions}
+不得读取任何往期工作区、输出、备份、生成记录或历史会话；不得复用、改写、续写或借鉴历史 story、prompt、assets、jobs 或分镜。历史只允许使用上面的活动标签来排除重复活动。
+第一步根据总纲与指令“想一个男男GAY 面向BL 的双人剧情，适合社媒，短视频，居家，日常，甜蜜，暧昧。一句话。”独立创作，将一句话写入 story.txt，并将核心日常活动写入 activity.txt（仅一个简短活动名称，不含人物、台词、互动或分镜）。
+在进入第二步前，将新活动与排除清单按语义核对；同义活动、换道具或换场景的同一活动也算重复。若重复，丢弃本轮候选并从第一步重新想全新活动，不得改写历史故事。
+第二步只根据本轮新写的 story.txt 从零编写提示词，重新选择并查看资产实际图片，调用项目 skills/multi-shot-prompt，execution_mode: standalone_mode，完成一个四部分提示词，纯文本写入 prompt.txt，素材及上传顺序写入 assets.json。
 所有角色台词必须英文。默认15秒、9:16、720P；电影 LoRA 强度0.1，其他按项目 Skill。
-第三步调用项目 skills/rh-minimax-h3 脚本构造 jobs.json、dry-run、提交一次并下载。
+第三步只根据本轮新写的 prompt.txt 与 assets.json 新建 jobs.json，调用项目 skills/rh-minimax-h3 脚本构造 jobs.json、dry-run、提交一次并下载。
 RUNNINGHUB_ENV_FILE 已配置，不读取、显示或复制密钥内容；脚本自行读取。无需为配置凭据再提问。
-已有taskId只能resume查询，提交不明不得重提。不得生成新资产、剪辑、审片或发布。
+本轮提交后已有 taskId 只能查询本轮任务；不得使用历史 taskId。提交不明不得重提。不得生成新资产、剪辑、审片或发布。
 结束时简洁报告结果、taskId、usage、真实文件尺寸时长；失败如实说明，不宣称成功。
 '''
+
+
+def execute(run, recovery=False):
+    work, out = dirs(run)
+    prompt = creation_prompt(run) if not recovery else ''
     if recovery:
         prompt = f'''恢复本项目已有生成任务。先读 skills/rh-minimax-h3/SKILL.md 与恢复用法。
 原工作目录：{work}；原输出目录：{out}。
@@ -139,6 +165,9 @@ RUNNINGHUB_ENV_FILE 已配置，禁止输出或复制密钥。结尾报告真实
     finally:
         with LOCK:
             ACTIVE['process'] = None
+            activity_file = work / 'activity.txt'
+            if activity_file.is_file():
+                run['activity'] = activity_file.read_text().strip()[:120]
             run['finishedAt'] = datetime.now().astimezone().isoformat()
             save()
 
