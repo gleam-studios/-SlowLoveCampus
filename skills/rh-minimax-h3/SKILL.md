@@ -15,14 +15,14 @@ Agent 根据任务指定提示词、**时长 5–15 秒、画幅、1–6 张参�
 
 用户指定画质档：**480P→0.5 MP、720P→1 MP、1080P→2 MP**。默认 720P（1 MP）+ Plus，1080P 使用 Ultra；可按任务指定其他 MP 或实例，2 MP 及以上须 Ultra。MP 是生成目标像素量，不保证准确输出标准宽高，实际尺寸以文件为准。应用节点提示超过 0.8 MP 使用 Plus，不代表任何时长与组合必定成功。
 
-默认四组 LoRA 与触发词按用户 2026-10-28 的截图固定：
+默认四组 LoRA 与触发词沿用用户 2026-10-28 的截图；本项目按 2026-10-29 要求将电影 LoRA 强度降至 0.1：
 
 | 槽位 | 文件名 | 强度 |
 |---|---|---:|
 | 1 | `MysticXXX_MMH3-V5.1.safetensors` | 0.4 |
 | 2 | `Minimax-H3-Digicam-Realism Improve Lora.safetensors` | 0.5 |
 | 3 | `h3-realism-people-t2v-i2v-r2v_new.safetensors` | 0.5 |
-| 4 | `H3电影感V2.safetensors` | 0.5 |
+| 4 | `H3电影感V2.safetensors` | 0.1 |
 
 触发词为 `dynv2,r34l1sm`。默认配置是用户指定值，可以按任务显式覆盖；更换 LoRA 时同步检查触发词。**该四 LoRA 组合和三个画质档尚未在本应用实测，接口成功构造不等于 LoRA 已加载或画质达标。**
 

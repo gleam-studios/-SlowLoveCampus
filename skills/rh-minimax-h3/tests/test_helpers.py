@@ -77,7 +77,7 @@ class Helpers(unittest.TestCase):
             expected=[('813','MysticXXX_MMH3-V5.1.safetensors',0.4),
                       ('817','Minimax-H3-Digicam-Realism Improve Lora.safetensors',0.5),
                       ('815','h3-realism-people-t2v-i2v-r2v_new.safetensors',0.5),
-                      ('888','H3电影感V2.safetensors',0.5)]
+                      ('888','H3电影感V2.safetensors',0.1)]
             for node,name,strength in expected:
                 self.assertEqual(nodes[(node,'lora_name')],name)
                 self.assertEqual(float(nodes[(node,'strength_model')]),strength)
