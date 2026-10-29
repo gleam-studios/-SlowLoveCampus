@@ -6,3 +6,8 @@
 - gsap-core — 界面入场动效及减少动态效果偏好适配。入口：`/Users/griffith/.agents/skills/web design/gsap/gsap-core/SKILL.md`。
 
 - systematic-debugging — 定位独立创作中的历史输入与活动去重缺口，并验证回归。入口：`/Users/griffith/.agents/skills/dev/systematic-debugging/SKILL.md`。
+
+## 隔离分发的提示词 Skill
+
+- @SlowLoveCampus-skill-15s — 自带总纲、素材和提示词子 Skill，交付 15 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-15s/SKILL.md](skill-packages/@SlowLoveCampus-skill-15s/SKILL.md)。
+- @SlowLoveCampus-skill-30s — 支持更多关联情节、动作、镜头与对白，交付 30 秒完整视频提示词后结束。入口：[skill-packages/@SlowLoveCampus-skill-30s/SKILL.md](skill-packages/@SlowLoveCampus-skill-30s/SKILL.md)。

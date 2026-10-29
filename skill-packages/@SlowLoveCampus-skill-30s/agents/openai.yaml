@@ -1,0 +1,4 @@
+interface:
+  display_name: "@SlowLoveCampus-30s"
+  short_description: "自带总纲、双人素材与提示词 Skill，交给不同模型独立构思情节推进并编写完整30秒视频提示词"
+  default_prompt: "使用 $slowlove-campus-30s，读取包内总纲与素材，独立完成一句话剧情和完整视频提示词，输出提示词后结束。"

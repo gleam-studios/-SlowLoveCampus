@@ -1,0 +1,68 @@
+[
+  {
+    "path": "assets/场景/卧室.jpeg",
+    "bytes": 1337282,
+    "type": "image/jpeg",
+    "sha256": "1f2fb12267cd4e0c726bcf5e5bcb77b9357a6e502263f4117b5722dcefabace9"
+  },
+  {
+    "path": "assets/场景/厨房.jpeg",
+    "bytes": 328037,
+    "type": "image/jpeg",
+    "sha256": "0cbd4816724f088c22028ecf147bbdf3a583f649704301dc341fb83c3d53d38d"
+  },
+  {
+    "path": "assets/场景/客厅.jpeg",
+    "bytes": 302630,
+    "type": "image/jpeg",
+    "sha256": "c22a8c835fe268f3a10f92c9fc53a7d806ce4c1e5206e305dda4d57d60cf2154"
+  },
+  {
+    "path": "assets/场景/浴室.jpeg",
+    "bytes": 317345,
+    "type": "image/jpeg",
+    "sha256": "7217f99ba10bc37b34d8c4a30b25da0e26e8a6b146bae596af7620d29911a53f"
+  },
+  {
+    "path": "assets/场景/玄关走廊.jpeg",
+    "bytes": 290959,
+    "type": "image/jpeg",
+    "sha256": "cb8efcdc44779ffaad4dfe382aefb5c386596ddfed1355d75f6473c06a8fe505"
+  },
+  {
+    "path": "assets/场景/阳台.jpeg",
+    "bytes": 422565,
+    "type": "image/jpeg",
+    "sha256": "b9cc90fe20eb9b908e8b3cfcd06c4564e9deb9e8b485d92328c98013b2bb3cd8"
+  },
+  {
+    "path": "assets/场景/餐区.jpeg",
+    "bytes": 321893,
+    "type": "image/jpeg",
+    "sha256": "31972c0f9f7e3f64c985adb505bf564961dd23b25258edb3e6fc1f0c8b41bb82"
+  },
+  {
+    "path": "assets/角色/受-音色.mp3",
+    "bytes": 4203394,
+    "type": "audio/mpeg",
+    "sha256": "127c7ec03637986bb6df21377101a679e2abd22eecf57f2a2ca03ce85494438f"
+  },
+  {
+    "path": "assets/角色/受.jpeg",
+    "bytes": 1619961,
+    "type": "image/jpeg",
+    "sha256": "1f60ab70fd60e3fc50852c9ff7fcf9a701c87d444549910a8d3b1e97b38e2712"
+  },
+  {
+    "path": "assets/角色/攻-音色.mp3",
+    "bytes": 3679298,
+    "type": "audio/mpeg",
+    "sha256": "9fb1286b1e1d9dd5ebcfa4325e1ffe13c5f1320a45b76cecfa54f1624d80188c"
+  },
+  {
+    "path": "assets/角色/攻.jpeg",
+    "bytes": 1729641,
+    "type": "image/jpeg",
+    "sha256": "56f2b662aaad557a41a6dde5874a7df0c8a2ac4db4de8e4f56c99a216ebee484"
+  }
+]
