@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SlowLoveCampus · 创作台</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/vendor/gsap.js"></script><script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="shell"><a href="#" class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 11c0-6 9-8 12-2 3-6 12-4 12 2 0 7-12 15-12 15S4 18 4 11Z"/><path d="m10 15 4 4 8-8"/></svg><span>SlowLoveCampus<span class="brand-sub">本地创作台</span></span></a><nav class="page-nav" aria-label="页面导航"><a href="#" id="nav-studio">创作台</a><a href="#records" id="nav-records">生成记录</a></nav><div class="header-right"><span id="connection">连接中</span><button class="quiet" id="settings-button">设置</button></div></header>
+  <main>
+    <div id="studio-page">
+    <div class="title-row"><div><h1>把日常，变成下一支短片。</h1><p>一句话开始，让甜蜜自然发生。</p></div><span class="local-label">本机运行 · Codex CLI</span></div>
+    <div class="workspace">
+      <section class="panel creation"><div class="panel-heading"><h2>新的一集</h2><span>15 秒 / 9:16 / 720P</span></div>
+        <div class="brief"><span>创作方向</span><p>两个男生的居家日常，<br>一点玩闹，一点暧昧。</p><small>成年双人 · 甜蜜互动 · 英文台词</small></div>
+        <button class="primary" id="run-button" disabled><span>一键运行</span><span aria-hidden="true">↗</span></button>
+        <p id="run-hint" class="hint">正在检查本地配置…</p><button id="resume-button" class="quiet studio-resume" hidden>恢复查询与下载</button>
+        <ol class="steps" aria-label="创作进度"><li><span class="step-index">1</span><div><h3>一句话剧情</h3><p>根据创作总纲，想一个日常小故事</p></div><span class="step-status">等待</span></li><li><span class="step-index">2</span><div><h3>素材与提示词</h3><p>匹配项目资产，编写完整分镜</p></div><span class="step-status">等待</span></li><li><span class="step-index">3</span><div><h3>生成视频</h3><p>提交 RunningHub，下载成片</p></div><span class="step-status">等待</span></li></ol>
+      </section>
+      <section class="panel preview"><div class="panel-heading"><h2>成片预览</h2><div class="preview-actions"><span id="result-status">还没有开始</span><button class="quiet download-button" id="preview-download" disabled>下载成片 ↓</button></div></div><div class="preview-content"><div class="video-frame" id="video-frame"><div class="empty-preview"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="4" width="30" height="40" rx="5"/><path d="m21 17 10 7-10 7Z"/></svg><p>下一段甜蜜，等你开始</p><small>生成完成后在这里播放</small></div></div><div class="preview-caption"><span>SlowLoveCampus</span><span>日常 / 亲密 / 随拍</span></div><div id="result-links"></div></div></section>
+    </div>
+    <a class="records-link" href="#records">查看生成记录 →</a>
+    </div>
+    <div id="records-page" hidden>
+      <h1 class="sr-only">生成记录</h1>
+      <div id="record-waterfall" class="record-waterfall" aria-label="生成视频"></div>
+      <p id="records-empty" class="muted" hidden>还没有成片。</p>
+    </div>
+    <footer><span>慢一点，爱具体一点。</span><span>资产来自项目本地目录</span></footer>
+  </main>
+  <dialog id="media-viewer" class="media-viewer"><button id="close-media" class="quiet media-close" aria-label="关闭播放">×</button><video id="media-player" controls playsinline></video><a id="media-download" class="quiet media-download" download>下载成片 ↓</a></dialog>
+  <dialog id="settings"><form id="settings-form"><div class="dialog-heading"><h2>设置</h2><button type="button" id="close-settings" class="quiet" aria-label="关闭设置">关闭</button></div><p class="muted">连接你的 RunningHub 账户。</p><label for="api-key">RunningHub API Key</label><input id="api-key" type="password" autocomplete="new-password" placeholder="粘贴 API Key" required><p class="hint" id="key-hint">仅保存在本机，不会在页面中回显。</p><p class="hint">Codex 使用终端中已有的登录。未登录时先运行 <code>codex login</code>。</p><div class="settings-foot"><p id="settings-feedback" role="status"></p><button class="primary" type="submit">保存设置</button></div></form></dialog>
+  <div id="toast" role="alert" hidden></div>
+</body></html>

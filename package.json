@@ -1,0 +1,13 @@
+{
+  "name": "slowlove-campus",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "python3 server.py",
+    "test": "python3 -m unittest discover -s tests -v"
+  },
+  "dependencies": {
+    "@fontsource/geist": "5.2.8",
+    "gsap": "3.14.2"
+  }
+}
