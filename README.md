@@ -19,28 +19,24 @@
 
 ## 方式二：通过 Skill 写提示词，手动生成视频
 
-以下 Skill 安装命令三选一，给 GPT 发送：
-
-```text
-用（粘贴下方的 Skill 安装命令）这个 Skill 写提示词。
-```
+以下指令三选一，直接复制发送给 GPT：
 
 ### 15 秒版
 
-```bash
-npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-15s --skill slowlove-campus -g -y
+```text
+用 npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-15s --skill slowlove-campus -g -y 这个 Skill 写提示词。
 ```
 
 ### 20 秒版
 
-```bash
-npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-20s --skill slowlove-campus-20s -g -y
+```text
+用 npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-20s --skill slowlove-campus-20s -g -y 这个 Skill 写提示词。
 ```
 
 ### 30 秒版
 
-```bash
-npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-30s --skill slowlove-campus-30s -g -y
+```text
+用 npx skills add https://github.com/gleam-studios/-SlowLoveCampus/tree/main/skill-packages/@SlowLoveCampus-skill-30s --skill slowlove-campus-30s -g -y 这个 Skill 写提示词。
 ```
 
 Skill 输出完整提示词后结束，使用提示词手动生成视频。
