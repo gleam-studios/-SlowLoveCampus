@@ -14,8 +14,10 @@
     <div class="workspace">
       <section class="panel creation"><div class="panel-heading"><h2>新的一集</h2><span>15 秒 / 9:16 / 720P</span></div>
         <div class="brief"><span>创作方向</span><p>两个男生的居家日常，<br>一点玩闹，一点暧昧。</p><small>成年双人 · 甜蜜互动 · 英文台词</small></div>
+        <div class="count-control"><label for="run-count">生成次数</label><select id="run-count"><option value="1">1 次</option><option value="2">2 次</option><option value="3">3 次</option></select><span>最多 3 次，同时运行</span></div>
         <button class="primary" id="run-button" disabled><span>一键运行</span><span aria-hidden="true">↗</span></button>
         <p id="run-hint" class="hint">正在检查本地配置…</p><button id="resume-button" class="quiet studio-resume" hidden>恢复查询与下载</button>
+        <div id="batch-tasks" class="batch-tasks" aria-label="本批任务" hidden></div>
         <ol class="steps" aria-label="创作进度"><li><span class="step-index">1</span><div><h3>一句话剧情</h3><p>根据创作总纲，想一个日常小故事</p></div><span class="step-status">等待</span></li><li><span class="step-index">2</span><div><h3>素材与提示词</h3><p>匹配项目资产，编写完整分镜</p></div><span class="step-status">等待</span></li><li><span class="step-index">3</span><div><h3>生成视频</h3><p>提交 RunningHub，下载成片</p></div><span class="step-status">等待</span></li></ol>
       </section>
       <section class="panel preview"><div class="panel-heading"><h2>成片预览</h2><div class="preview-actions"><span id="result-status">还没有开始</span><button class="quiet download-button" id="preview-download" disabled>下载成片 ↓</button></div></div><div class="preview-content"><div class="video-frame" id="video-frame"><div class="empty-preview"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="4" width="30" height="40" rx="5"/><path d="m21 17 10 7-10 7Z"/></svg><p>下一段甜蜜，等你开始</p><small>生成完成后在这里播放</small></div></div><div class="preview-caption"><span>SlowLoveCampus</span><span>日常 / 亲密 / 随拍</span></div><div id="result-links"></div></div></section>

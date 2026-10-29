@@ -23,7 +23,7 @@ RUNS_FILE = LOCAL / 'runs.json'
 TOKEN = secrets.token_urlsafe(32)
 LOCK = threading.RLock()
 RUNS = []
-ACTIVE = {'process': None}
+ACTIVE = {}
 spec = importlib.util.spec_from_file_location('rh_credentials', ROOT / 'skills/rh-minimax-h3/scripts/credentials.py')
 credentials = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(credentials)
@@ -133,7 +133,8 @@ RUNNINGHUB_ENV_FILE 已配置，禁止输出或复制密钥。结尾报告真实
         with subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                               stderr=subprocess.STDOUT, env=env, text=True, bufsize=1,
                               start_new_session=True) as proc:
-            ACTIVE['process'] = proc
+            with LOCK:
+                ACTIVE[run['id']] = proc
             proc.stdin.write(prompt)
             proc.stdin.close()
             for line in proc.stdout:
@@ -164,7 +165,7 @@ RUNNINGHUB_ENV_FILE 已配置，禁止输出或复制密钥。结尾报告真实
             run.update(status='failed', message=redact(f'无法执行 Codex：{error}'))
     finally:
         with LOCK:
-            ACTIVE['process'] = None
+            ACTIVE.pop(run['id'], None)
             activity_file = work / 'activity.txt'
             if activity_file.is_file():
                 run['activity'] = activity_file.read_text().strip()[:120]
@@ -277,28 +278,39 @@ class Handler(BaseHTTPRequestHandler):
                 if self.path in ('/api/run', '/api/resume'):
                     if any(r['status'] == 'running' for r in RUNS):
                         raise ValueError('已有任务运行中')
+                    count = body.get('count', 1) if self.path == '/api/run' else 1
+                    if type(count) is not int or not 1 <= count <= 3:
+                        raise ValueError('生成次数须为 1–3 的整数')
                     if not credentials.read_key(KEY_FILE):
                         raise ValueError('请先在设置中保存 RunningHub API Key')
                     if not shutil.which('codex'):
                         raise ValueError('未找到 Codex CLI，请安装并执行 codex login')
                     recovery = self.path == '/api/resume'
+                    batch = []
                     if recovery:
                         run = next((r for r in RUNS if r['id'] == body.get('id')), None)
                         if not run or not public_run(run)['taskIds']:
                             raise ValueError('没有可恢复的 taskId，请先在平台核对提交记录')
+                        batch.append(run)
                     else:
                         if unresolved():
                             raise ValueError('有提交结果未确认，请先恢复原任务或在平台核对，避免重复扣费')
-                        run = {'id': datetime.now().strftime('%Y%m%d-%H%M%S-') + uuid.uuid4().hex[:6],
-                               'createdAt': datetime.now().astimezone().isoformat()}
-                        RUNS.insert(0, run)
-                    run.update(status='running', message='正在启动本机 Codex…')
-                    work, out = dirs(run)
-                    work.mkdir(parents=True, exist_ok=True)
-                    out.mkdir(parents=True, exist_ok=True)
+                        batch_id = uuid.uuid4().hex
+                        for index in range(count):
+                            run = {'id': datetime.now().strftime('%Y%m%d-%H%M%S-') + uuid.uuid4().hex[:6],
+                                   'createdAt': datetime.now().astimezone().isoformat(),
+                                   'batchId': batch_id, 'batchIndex': index + 1}
+                            batch.append(run)
+                        RUNS[0:0] = batch
+                    for run in batch:
+                        run.update(status='running', message='正在启动本机 Codex…')
+                        work, out = dirs(run)
+                        work.mkdir(parents=True, exist_ok=True)
+                        out.mkdir(parents=True, exist_ok=True)
                     save()
-                    threading.Thread(target=execute, args=(run, recovery), daemon=True).start()
-                    return self.json({'id': run['id']}, 202)
+                    for run in batch:
+                        threading.Thread(target=execute, args=(run, recovery), daemon=True).start()
+                    return self.json({'id': batch[0]['id'], 'ids': [run['id'] for run in batch]}, 202)
             return self.json({'error': '接口不存在'}, 404)
         except (ValueError, OSError) as error:
             return self.json({'error': redact(str(error))}, 400)
@@ -324,10 +336,20 @@ def main():
     except KeyboardInterrupt:
         print('\n本地服务已关闭。远端已提交的任务可在重启后恢复查询。')
     finally:
-        proc = ACTIVE['process']
-        if proc and proc.poll() is None:
-            os.killpg(proc.pid, signal.SIGTERM)
-            proc.wait(timeout=10)
+        with LOCK:
+            processes = list(ACTIVE.values())
+        for proc in processes:
+            if proc.poll() is None:
+                try:
+                    os.killpg(proc.pid, signal.SIGTERM)
+                except ProcessLookupError:
+                    pass
+        for proc in processes:
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                os.killpg(proc.pid, signal.SIGKILL)
+                proc.wait()
         server.server_close()
 
 

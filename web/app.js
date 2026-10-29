@@ -58,15 +58,30 @@ async function post(path, data = {}) {
   return result;
 }
 function render() {
-  const running = state.runs.some(r => r.status === 'running');
+  const activeCount = state.runs.filter(r => r.status === 'running').length;
+  const running = activeCount > 0;
+  const count = Number($('run-count').value);
+  $('run-count').disabled = busy || running;
   $('connection').textContent = state.codexAvailable ? '本地 Codex 已就绪' : '未找到 Codex CLI';
   $('run-button').disabled = busy || running || !state.configured || !state.codexAvailable || !!state.unresolvedRun;
-  $('run-button').firstElementChild.textContent = running ? '正在创作…' : '一键运行';
-  $('run-hint').textContent = running ? '可以离开或刷新页面，任务会继续运行。' : !state.configured ? '先在设置中保存 RunningHub API Key。' : state.unresolvedRun ? '有提交状态未确认，请先恢复原任务。' : !state.codexAvailable ? '先在终端安装 Codex CLI 并登录。' : '点击后将提交一次视频生成，费用由 RunningHub 账户扣除。';
+  $('run-button').firstElementChild.textContent = running ? `${activeCount} 个任务运行中…` : count > 1 ? `一键运行 · ${count} 次` : '一键运行';
+  $('run-hint').textContent = running ? '任务并行运行，可点击下方任务切换进度和预览。' : !state.configured ? '先在设置中保存 RunningHub API Key。' : state.unresolvedRun ? '有提交状态未确认，请先恢复原任务。' : !state.codexAvailable ? '先在终端安装 Codex CLI 并登录。' : `点击后将${count > 1 ? '并行' : ''}提交 ${count} 次视频生成，费用由 RunningHub 账户扣除。`;
   $('key-hint').textContent = state.configured ? '已保存。输入新 Key 可替换；保存不代表已联网验证。' : '仅保存在本机，不会在页面中回显。';
   renderWaterfall();
   const run = state.runs.find(r => r.id === selected) || state.runs[0];
   if (!run) return;
+  const batch = run.batchId ? state.runs.filter(r => r.batchId === run.batchId) : [run];
+  $('batch-tasks').hidden = batch.length < 2;
+  const signature = JSON.stringify(batch.map(r => [r.id, r.status, r.id === run.id]));
+  if ($('batch-tasks').dataset.signature !== signature) {
+    $('batch-tasks').dataset.signature = signature;
+    $('batch-tasks').replaceChildren(...batch.map((task, index) => {
+      const button = document.createElement('button');
+      button.className = 'quiet'; button.textContent = `任务 ${index + 1} · ${names[task.status]}`;
+      button.setAttribute('aria-pressed', String(task.id === run.id));
+      button.onclick = () => { selected = task.id; render(); }; return button;
+    }));
+  }
   $('result-status').textContent = names[run.status];
   $('resume-button').hidden = !run.taskIds.length || run.status === 'completed' || running;
   $('resume-button').dataset.id = run.id;
@@ -104,7 +119,7 @@ $('settings-form').onsubmit = async event => {
 };
 $('run-button').onclick = async () => {
   if (busy) return; busy = true; render();
-  try { const result = await post('/api/run'); selected = result.id; await refresh(); }
+  try { const result = await post('/api/run', {count: Number($('run-count').value)}); selected = result.id; await refresh(); }
   catch (e) { notify(e.message); }
   finally { busy = false; render(); }
 };
@@ -116,6 +131,7 @@ $('resume-button').onclick = async () => {
 };
 async function poll() { try { await refresh(); } catch (_) { $('connection').textContent = '本地服务已断开'; $('run-button').disabled = true; $('run-hint').textContent = '请启动本地服务，连接恢复后将自动更新。'; } finally { setTimeout(poll, 2500); } }
 $('preview-download').onclick = downloadSelected;
+$('run-count').onchange = () => { if (state) render(); };
 $('close-media').onclick = () => $('media-viewer').close();
 $('media-viewer').addEventListener('close', () => { $('media-player').pause(); $('media-player').removeAttribute('src'); $('media-player').load(); });
 $('media-viewer').addEventListener('click', event => { if (event.target === $('media-viewer')) $('media-viewer').close(); });

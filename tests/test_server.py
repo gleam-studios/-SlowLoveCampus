@@ -21,7 +21,7 @@ class LocalAppTests(unittest.TestCase):
         self.patchers = [patch.object(server, 'ROOT', self.root), patch.object(server, 'LOCAL', self.local),
                          patch.object(server, 'KEY_FILE', self.local / 'runninghub.env'),
                          patch.object(server, 'RUNS_FILE', self.local / 'runs.json'),
-                         patch.object(server, 'RUNS', []), patch.dict(server.ACTIVE, process=None)]
+                         patch.object(server, 'RUNS', []), patch.object(server, 'ACTIVE', {})]
         for p in self.patchers:
             p.start()
         self.http = server.ThreadingHTTPServer(('127.0.0.1', 0), server.Handler)
@@ -75,6 +75,52 @@ class LocalAppTests(unittest.TestCase):
         with patch.object(server.shutil, 'which', return_value='/fake/codex'):
             self.assertEqual(self.request('/api/run', {})[0], 400)
             self.assertEqual(self.request('/api/resume', {'id': 'existing'})[0], 400)
+
+    def test_batch_count_validation(self):
+        self.request('/api/settings', {'apiKey': 'fake-key'})
+        for count in (0, 4, -1, True, 1.5, '3', None):
+            with self.subTest(count=count):
+                self.assertEqual(self.request('/api/run', {'count': count})[0], 400)
+        self.assertEqual(server.RUNS, [])
+
+    def test_three_tasks_start_concurrently_and_fail_independently(self):
+        self.request('/api/settings', {'apiKey': 'fake-key'})
+        entered = []
+        release = threading.Event()
+        all_started = threading.Event()
+        all_finished = threading.Event()
+        finished = []
+
+        def fake_execute(run, recovery=False):
+            with server.LOCK:
+                entered.append(run['id'])
+                if len(entered) == 3:
+                    all_started.set()
+            release.wait(5)
+            with server.LOCK:
+                run['status'] = 'failed' if run['batchIndex'] == 2 else 'completed'
+                finished.append(run['id'])
+                server.save()
+                if len(finished) == 3:
+                    all_finished.set()
+
+        with patch.object(server, 'execute', side_effect=fake_execute), patch.object(server.shutil, 'which', return_value='/fake/codex'):
+            try:
+                status, data = self.request('/api/run', {'count': 3})
+                self.assertEqual(status, 202)
+                ids = json.loads(data)['ids']
+                self.assertEqual(len(set(ids)), 3)
+                self.assertTrue(all_started.wait(2), 'Three workers must enter before any finishes')
+                self.assertEqual(len(server.RUNS), 3)
+                self.assertEqual(len({r['batchId'] for r in server.RUNS}), 1)
+                for run in server.RUNS:
+                    self.assertTrue(server.dirs(run)[0].is_dir())
+                    self.assertTrue(server.dirs(run)[1].is_dir())
+                self.assertEqual(self.request('/api/run', {'count': 1})[0], 400)
+            finally:
+                release.set()
+                self.assertTrue(all_finished.wait(3))
+        self.assertEqual([r['status'] for r in server.RUNS], ['completed', 'failed', 'completed'])
 
     def test_fresh_prompt_uses_only_activity_exclusions(self):
         old = {'id': 'old', 'status': 'completed'}
