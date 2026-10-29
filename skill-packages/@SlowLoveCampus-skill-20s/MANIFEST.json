@@ -1,0 +1,359 @@
+{
+  "name": "@SlowLoveCampus-20s",
+  "skill_id": "slowlove-campus-20s",
+  "version": "1.0.0-20s",
+  "output_type": "video_prompt",
+  "default_duration_seconds": 20,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 64,
+      "sha256": "e57c1b6788f99c6a8d9cc1f5f106bc027c746378a441edddd41090b168f33454"
+    },
+    {
+      "path": "ASSETS.json",
+      "bytes": 1972,
+      "sha256": "6f9424eb45f5086eec5d8882152f10f69724bd11ebab0bfb194bd53686e6f8c3"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 403,
+      "sha256": "dc52f4dfab8d7d28572904b0fef750b9184165be421177909054c2bf32b75ddf"
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 6910,
+      "sha256": "47529d70b70c9dda63a6ec6b9f12055382a46e0403181fdc4778a2f3c79b4170"
+    },
+    {
+      "path": "SOURCE.md",
+      "bytes": 1206,
+      "sha256": "d9282a21cc3272b346976b0053a3b6b06d04c2e4c68a3322ed676dbf3e3d6b9e"
+    },
+    {
+      "path": "VALIDATION.md",
+      "bytes": 957,
+      "sha256": "1e1e3bf4640740a0a22e4cadc4eebfdd2bc19b6a58190c51736e1d256b10c054"
+    },
+    {
+      "path": "agents/openai.yaml",
+      "bytes": 330,
+      "sha256": "d3a6f12bf8003a89e88136a7b4b9c492c422f894c2886d78db6dd99d8643c911"
+    },
+    {
+      "path": "assets/场景/卧室.jpeg",
+      "bytes": 1337282,
+      "sha256": "1f2fb12267cd4e0c726bcf5e5bcb77b9357a6e502263f4117b5722dcefabace9"
+    },
+    {
+      "path": "assets/场景/厨房.jpeg",
+      "bytes": 328037,
+      "sha256": "0cbd4816724f088c22028ecf147bbdf3a583f649704301dc341fb83c3d53d38d"
+    },
+    {
+      "path": "assets/场景/客厅.jpeg",
+      "bytes": 302630,
+      "sha256": "c22a8c835fe268f3a10f92c9fc53a7d806ce4c1e5206e305dda4d57d60cf2154"
+    },
+    {
+      "path": "assets/场景/浴室.jpeg",
+      "bytes": 317345,
+      "sha256": "7217f99ba10bc37b34d8c4a30b25da0e26e8a6b146bae596af7620d29911a53f"
+    },
+    {
+      "path": "assets/场景/玄关走廊.jpeg",
+      "bytes": 290959,
+      "sha256": "cb8efcdc44779ffaad4dfe382aefb5c386596ddfed1355d75f6473c06a8fe505"
+    },
+    {
+      "path": "assets/场景/阳台.jpeg",
+      "bytes": 422565,
+      "sha256": "b9cc90fe20eb9b908e8b3cfcd06c4564e9deb9e8b485d92328c98013b2bb3cd8"
+    },
+    {
+      "path": "assets/场景/餐区.jpeg",
+      "bytes": 321893,
+      "sha256": "31972c0f9f7e3f64c985adb505bf564961dd23b25258edb3e6fc1f0c8b41bb82"
+    },
+    {
+      "path": "assets/角色/受-音色.mp3",
+      "bytes": 4203394,
+      "sha256": "127c7ec03637986bb6df21377101a679e2abd22eecf57f2a2ca03ce85494438f"
+    },
+    {
+      "path": "assets/角色/受.jpeg",
+      "bytes": 1619961,
+      "sha256": "1f60ab70fd60e3fc50852c9ff7fcf9a701c87d444549910a8d3b1e97b38e2712"
+    },
+    {
+      "path": "assets/角色/攻-音色.mp3",
+      "bytes": 3679298,
+      "sha256": "9fb1286b1e1d9dd5ebcfa4325e1ffe13c5f1320a45b76cecfa54f1624d80188c"
+    },
+    {
+      "path": "assets/角色/攻.jpeg",
+      "bytes": 1729641,
+      "sha256": "56f2b662aaad557a41a6dde5874a7df0c8a2ac4db4de8e4f56c99a216ebee484"
+    },
+    {
+      "path": "references/创作总纲.md",
+      "bytes": 4819,
+      "sha256": "6acc039fdbf32cee24dbec57fcd949380d8587ab96ff4442ea6ebb1f4adf1aa7"
+    },
+    {
+      "path": "scripts/workspace.py",
+      "bytes": 6077,
+      "sha256": "2184caff722f2e066f7d2ebdf7a7b9cac8d90d260640f8e9fad92fa8322aba2c"
+    },
+    {
+      "path": "skills/multi-shot-prompt/CHANGELOG.md",
+      "bytes": 591,
+      "sha256": "3e5269323aa37258b7fa112ee43702593b26bfc9c6513ec53883372d11cf1004"
+    },
+    {
+      "path": "skills/multi-shot-prompt/README.md",
+      "bytes": 2257,
+      "sha256": "766a38d35e15b9697df9f2ec5da58a12c4a82b265c935ae19dcdbda8db47285c"
+    },
+    {
+      "path": "skills/multi-shot-prompt/RECOVERY_NOTICE.md",
+      "bytes": 906,
+      "sha256": "1e0da0f7c6f6c0583786cda85ce1cd95427fc4d9a3448121ca03891560439d94"
+    },
+    {
+      "path": "skills/multi-shot-prompt/SKILL.md",
+      "bytes": 19914,
+      "sha256": "7ffe1f98975b243829d62bfb07d582bc06cbec4a0c979182db07ee24a5359249"
+    },
+    {
+      "path": "skills/multi-shot-prompt/SOURCE.md",
+      "bytes": 1994,
+      "sha256": "a7004bccfd8108adfb5cea2879f0fa61ae181f3785b9e1cc3d8b8ce9ecbbfeba"
+    },
+    {
+      "path": "skills/multi-shot-prompt/agents/openai.yaml",
+      "bytes": 438,
+      "sha256": "3e28f8de649818257a19dfa60d2cec2c4ac79ba54cad9c041059ada7658e9a4f"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/execution_manifest_qc.md",
+      "bytes": 590,
+      "sha256": "25457c01fdb3420bdc621a29d6a474c55f11ac5aca5ea0265343cc35d37a6788"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/film_texture_qc.md",
+      "bytes": 417,
+      "sha256": "21498919db34970d1f1b742d4b894f229a683293e90dd7078ba719992c7a69c5"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/inheritance_qc.md",
+      "bytes": 702,
+      "sha256": "cb678ff1dfa67a9671f417a0c2c0ad0fcbdd1a91faae6d09faff5d06cb9af90e"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/managed_mode_qc.md",
+      "bytes": 362,
+      "sha256": "a4dddc88edb570a292c8e3098c0fd9f8a5070bd8dd402915a166b0cd7ed1a3a1"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/material_lock_qc.md",
+      "bytes": 809,
+      "sha256": "872322c02451f8bd54a32c3e312245acb894ad45f8207aa1d064bad53aefd3e6"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/realistic_daily_selfie_qc.md",
+      "bytes": 640,
+      "sha256": "a5435aa18efe32955cd2263e062bae385531eff2461a419b23a288e517f71be7"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/repair_qc.md",
+      "bytes": 279,
+      "sha256": "7609b6db391f62d8840daf6de7fdb7f0e0da2a37d7f956ea284aa4f890e9d533"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/safety_and_rights_qc.md",
+      "bytes": 294,
+      "sha256": "303c6df267429ada623219dc21294eadd3fec49e5b516e842f06c0c1317d5b31"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/storyboard_module_qc.md",
+      "bytes": 1208,
+      "sha256": "44477f5f83dde637fbf697dca772643e97b2835efd15d2bfe59d4f540123553f"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/take_review_qc.md",
+      "bytes": 315,
+      "sha256": "f69558b34ab61f841ee52b84b6891d8a068101100c61ee79da3e5ea19b99eff1"
+    },
+    {
+      "path": "skills/multi-shot-prompt/checklists/video_summary_qc.md",
+      "bytes": 227,
+      "sha256": "d4586f234202649c1995cce929ad5fa5520d218c19726f5242d0f8044101a6f2"
+    },
+    {
+      "path": "skills/multi-shot-prompt/evals/live_generation_ledger.md",
+      "bytes": 367,
+      "sha256": "17bddf7df20938215767db756a65f1c16da5f7145268508b6652a9cd4153b8fd"
+    },
+    {
+      "path": "skills/multi-shot-prompt/examples/product_ad_10s.md",
+      "bytes": 2159,
+      "sha256": "b0129b5fa6fa89bc09adb4117365ded5369fbd3a44639d33c5c45176dda1b095"
+    },
+    {
+      "path": "skills/multi-shot-prompt/examples/rainy_bus_stop_20s_mock.md",
+      "bytes": 5584,
+      "sha256": "08e1da26ba5ec523c801627d0df91d7b778ab4af0ed9ba2d33e5d9f1988f7eaf"
+    },
+    {
+      "path": "skills/multi-shot-prompt/examples/realistic-daily-selfie/case_index.md",
+      "bytes": 509,
+      "sha256": "8326ec158772531ccfce1c325e13d9b81754f3c0fc172006cc1f2d34c40ac832"
+    },
+    {
+      "path": "skills/multi-shot-prompt/examples/realistic-daily-selfie/normalized/front_camera_demo.md",
+      "bytes": 2111,
+      "sha256": "3170d9d88b49060cd2e22fde33f9adee87d5ca5a3107f9e680506f0c591cfb7a"
+    },
+    {
+      "path": "skills/multi-shot-prompt/examples/validation-fixtures/README.md",
+      "bytes": 973,
+      "sha256": "a5f7b56433d24edfc90c917ce4ce5a6d712c7fea84341be367a163bd9b55351d"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/continuation_and_observed_state.md",
+      "bytes": 765,
+      "sha256": "6d3f7e32ec719a7ae4ce55189cc23048f92849fe6b152bf67aaddc80d140315b"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/device_profiles.md",
+      "bytes": 913,
+      "sha256": "d3ddfbf2cf3faeb56aaf09fb7db520f20d1f5ea19c69783b3bb98159c9f4f813"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/director_method.md",
+      "bytes": 1346,
+      "sha256": "e4582e08a590d5d6fb5c63f3fd91572055cadff751082d63493b5906a9f4fa5d"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/execution_modes.md",
+      "bytes": 1533,
+      "sha256": "456c76be414b8dcf921250cfc6b96dffeaa9369892d83df951d3cafa9e14c33f"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/film_texture_rules.md",
+      "bytes": 1094,
+      "sha256": "7460eb5f02cbfba67ea836dd35f624dc848662c51a7c614eb58c873443a63ccd"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/footage_provenance.md",
+      "bytes": 588,
+      "sha256": "8c255cac8900a006244021ca46effb2791af959c8daf301289ab7f94f26f42a9"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/generation_mode_routing.md",
+      "bytes": 956,
+      "sha256": "9a8f812008aa9e79afc751b9ce72fb041b35c6c96dc30fad250b1bad41cf9e7f"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/inheritance_and_qc.md",
+      "bytes": 1227,
+      "sha256": "e30d73ca98dca4c5c43fcdb3060ae4ac3b707e1445e2eff19c5ea1a930840aa7"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/managed_input_contract.md",
+      "bytes": 1650,
+      "sha256": "3194695d8c4bd7da185617fc3b0055f101022e1efe77de3e709eb84b16fe9a75"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/material_lock_rules.md",
+      "bytes": 2106,
+      "sha256": "9824111daa312b3184403d6c8da79a42cce646523c256f6948e7d6cc902a0c0c"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/platform_constraints.md",
+      "bytes": 1008,
+      "sha256": "17a7c3fddf8cd8c4b4af6a8ced7af5325552894203277ca97376925502de7484"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/realistic_daily_selfie_mode.md",
+      "bytes": 1680,
+      "sha256": "7d44fef80ab4e1934db334385b9cb1b00dd62acc6b43d2ab998632a173b4ac64"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/reference_asset_roles.md",
+      "bytes": 2052,
+      "sha256": "27119e5ee8b5bd955ac06fa5fda5c5aaa16b1280c48e727503a98ad698e875ad"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/repair_workflow.md",
+      "bytes": 808,
+      "sha256": "7bdee8430b641af487c85189163ae511673a86000372a7a92c96d9f2e5a99d13"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/safety_and_rights_gate.md",
+      "bytes": 690,
+      "sha256": "c5a90062f54f7e5e2f1d40bfe2553c87a3e5a66fbb45389f13ccd0df6b21cfdf"
+    },
+    {
+      "path": "skills/multi-shot-prompt/references/storyboard_module_rules.md",
+      "bytes": 3088,
+      "sha256": "700deb3bff1f77a90c8fb8d1d81ac170fb1bb2672152cec93aa130d7811ea09a"
+    },
+    {
+      "path": "skills/multi-shot-prompt/scripts/validate_skill_contract.py",
+      "bytes": 20956,
+      "sha256": "25117a33351b7279ab3a7d5be43930b4edc4389ba715c605d78cfc5907ecc84e"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/execution_manifest_template.md",
+      "bytes": 761,
+      "sha256": "d408426ae009cb0b36ae7f73a47edb52e4dc5a64903a7d3a4eaa66eac57ee6b9"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/film_texture_template.md",
+      "bytes": 315,
+      "sha256": "546b808ae1d3e7f0fe32f6c11d30ac54bcdd194fe1e727f7c31faee8e151e033"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/managed_input_template.json",
+      "bytes": 1061,
+      "sha256": "d96bc0a5e6e6bac475e1d9388dfbd6236a10bbe8cd31cb48d218e6c701baa68e"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/material_lock_template.md",
+      "bytes": 986,
+      "sha256": "bf78e1eb60a4df588450b7f9de2b07e7fd16b6aa5840ce0b0e264327459157b3"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/repair_module_template.md",
+      "bytes": 384,
+      "sha256": "2962f88b0c73bde0b101b5f68c801d046f93c94b0f450f8a1f99f13f744e3e1f"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/storyboard_module_template.md",
+      "bytes": 1334,
+      "sha256": "84dfcb19da439cc73db81cfff09ba2a06ca30845110e615d0356b19852ddbd07"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/take_review_template.md",
+      "bytes": 466,
+      "sha256": "2241de70d46936d4bff40ca0f339bbd37c13c74eef4d4cb3beb713352793ca00"
+    },
+    {
+      "path": "skills/multi-shot-prompt/templates/video_summary_template.md",
+      "bytes": 122,
+      "sha256": "e17161def27e0415d324ae3f978e2247a3bb6c6f3255bd82ca3f8d62e526bfda"
+    },
+    {
+      "path": "tests/test_workspace.py",
+      "bytes": 3519,
+      "sha256": "c2fb0d9b768bfc59e1094fdf0d09a1f3d512cc0e618e84401a247f1cc0da2b5f"
+    },
+    {
+      "path": "使用方法.md",
+      "bytes": 1318,
+      "sha256": "9370d5acdd7d6b2f1bececd561997c041a4baf839fb11c6fe4e2382f4f6cd214"
+    }
+  ]
+}
