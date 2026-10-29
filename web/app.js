@@ -61,11 +61,12 @@ function render() {
   const activeCount = state.runs.filter(r => r.status === 'running').length;
   const running = activeCount > 0;
   const count = Number($('run-count').value);
+  const compatible = state.maxParallelRuns === 3;
   $('run-count').disabled = busy || running;
   $('connection').textContent = state.codexAvailable ? '本地 Codex 已就绪' : '未找到 Codex CLI';
-  $('run-button').disabled = busy || running || !state.configured || !state.codexAvailable || !!state.unresolvedRun;
+  $('run-button').disabled = busy || running || !compatible || !state.configured || !state.codexAvailable || !!state.unresolvedRun;
   $('run-button').firstElementChild.textContent = running ? `${activeCount} 个任务运行中…` : count > 1 ? `一键运行 · ${count} 次` : '一键运行';
-  $('run-hint').textContent = running ? '任务并行运行，可点击下方任务切换进度和预览。' : !state.configured ? '先在设置中保存 RunningHub API Key。' : state.unresolvedRun ? '有提交状态未确认，请先恢复原任务。' : !state.codexAvailable ? '先在终端安装 Codex CLI 并登录。' : `点击后将${count > 1 ? '并行' : ''}提交 ${count} 次视频生成，费用由 RunningHub 账户扣除。`;
+  $('run-hint').textContent = !compatible ? '当前后端仍是旧版本，请在现有任务完成后重启服务，再开始生成。' : running ? `${activeCount} 个任务运行中，可点击下方任务切换进度和预览。` : !state.configured ? '先在设置中保存 RunningHub API Key。' : state.unresolvedRun ? '有提交状态未确认，请先恢复原任务。' : !state.codexAvailable ? '先在终端安装 Codex CLI 并登录。' : `点击后将${count > 1 ? '并行' : ''}提交 ${count} 次视频生成，费用由 RunningHub 账户扣除。`;
   $('key-hint').textContent = state.configured ? '已保存。输入新 Key 可替换；保存不代表已联网验证。' : '仅保存在本机，不会在页面中回显。';
   renderWaterfall();
   const run = state.runs.find(r => r.id === selected) || state.runs[0];
@@ -119,7 +120,12 @@ $('settings-form').onsubmit = async event => {
 };
 $('run-button').onclick = async () => {
   if (busy) return; busy = true; render();
-  try { const result = await post('/api/run', {count: Number($('run-count').value)}); selected = result.id; await refresh(); }
+  try {
+    if (state.maxParallelRuns !== 3) throw new Error('后端尚未加载并行版本，请先重启服务');
+    const count = Number($('run-count').value);
+    const result = await post('/api/run', {count}); selected = result.id; await refresh();
+    if (!Array.isArray(result.ids) || result.ids.length !== count) notify('实际创建的任务数与请求不符，请勿重复点击，先检查服务版本。');
+  }
   catch (e) { notify(e.message); }
   finally { busy = false; render(); }
 };

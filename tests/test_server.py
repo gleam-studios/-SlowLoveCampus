@@ -54,6 +54,7 @@ class LocalAppTests(unittest.TestCase):
         state = self.request('/api/state')[1]
         self.assertNotIn(key.encode(), state)
         self.assertTrue(json.loads(state)['configured'])
+        self.assertEqual(json.loads(state)['maxParallelRuns'], 3)
         self.assertEqual(self.request('/.local/runninghub.env')[0], 404)
         self.assertEqual(self.request('/.env')[0], 404)
         self.assertEqual(self.request('/api/state', headers={'Host': 'evil.example'})[0], 403)

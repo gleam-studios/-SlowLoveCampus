@@ -200,6 +200,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/api/state':
             with LOCK:
                 return self.json({'token': TOKEN, 'configured': bool(credentials.read_key(KEY_FILE)),
+                                  'maxParallelRuns': 3,
                                   'codexAvailable': bool(shutil.which('codex')),
                                   'runs': [public_run(r) for r in RUNS], 'unresolvedRun': unresolved()})
         if path.startswith('/media/'):
