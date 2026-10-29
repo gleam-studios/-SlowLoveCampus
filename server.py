@@ -82,7 +82,7 @@ def execute(run, recovery=False):
 先读 AGENTS.md、README.md、创作总纲.md、项目内两个 SKILL.md，按需加载引用。
 用户已点击一键运行，授权本次提交一个 RunningHub 视频任务；禁止额外提交或自动重试。
 本次工作目录：{work}；输出目录：{out}。只能向这两个目录写创作产物，不修改项目代码、规则或 Skill。
-第一步根据总纲与指令“想一个男男GAY 面向BL 的双人剧情，适合社媒，短视频，居家，日常，甜蜜，暧昧。一句话。”创作，将一句话写入 story.txt。
+第一步：创作前依据 .local/runs.json，读取除本次任务外最近两次任务的 story.txt，仅用于识别已使用的活动与核心互动，再独立、自由地创作全新剧情；历史不足两次时读取已有记录，无历史时直接创作。根据总纲与指令“想一个男男GAY 面向BL 的双人剧情，适合社媒，短视频，居家，日常，甜蜜，暧昧。一句话。”创作，将一句话写入 story.txt。
 第二步查看资产实际图片，调用项目 skills/multi-shot-prompt，execution_mode: standalone_mode，完成一个四部分提示词，纯文本写入 prompt.txt，素材及上传顺序写入 assets.json。
 所有角色台词必须英文。默认15秒、9:16、720P；电影 LoRA 强度0.1，其他按项目 Skill。
 第三步调用项目 skills/rh-minimax-h3 脚本构造 jobs.json、dry-run、提交一次并下载。
